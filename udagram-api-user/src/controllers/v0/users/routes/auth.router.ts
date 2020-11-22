@@ -5,6 +5,7 @@ import { User } from '../models/User';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { NextFunction } from 'connect';
+const { v4: uuidv4 } = require('uuid');
 
 import * as EmailValidator from 'email-validator';
 import { config } from '../../../../config/config'; //imported our config file. We used the jwt secret key value in that file
@@ -65,8 +66,12 @@ router.get('/verification',
 });
 
 router.post('/login', async (req: Request, res: Response) => {
+    let pid = uuidv4();
     const email = req.body.email;
     const password = req.body.password;
+
+    console.log(new Date().toLocaleString() + `: ${pid} - User ${email} requested to login in`);
+
     // check email is valid
     if (!email || !EmailValidator.validate(email)) {
         return res.status(400).send({ auth: false, message: 'Email is required or malformed' });
@@ -93,6 +98,7 @@ router.post('/login', async (req: Request, res: Response) => {
     // Generate JWT
     const jwt = generateJWT(user);
 
+    console.log(new Date().toLocaleString() + `: ${pid} - User ${email} successfully logged in`);
     res.status(200).send({ auth: true, token: jwt, user: user.short()});
 });
 

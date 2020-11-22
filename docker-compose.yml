@@ -34,7 +34,7 @@ services:
     environment: #this variables will be set to the container during runtime. eg 'docker-compose --env-file ./docker/.env.dev up'  if i dont specify the flag, by default the docker-compose command will look for a file named .env in the directory you run the command. *remember to add the env file to gitignore
       POSTGRES_USERNAME: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} 
-      POSTGRES_DATABASE: ${POSTGRES_DATABASE} 
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE} # during docker-compose build the default value will be empty. i will set the value during docker-compose up or docker run
       POSTGRES_HOST: ${POSTGRES_HOST}
       AWS_REGION: ${AWS_PROFILE}
       AWS_PROFILE: ${AWS_PROFILE} 
